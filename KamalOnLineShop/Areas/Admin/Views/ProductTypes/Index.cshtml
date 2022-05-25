@@ -1,0 +1,38 @@
+﻿@model IEnumerable<KamalOnLineShop.Models.ProductTypes>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2 class="text-info">Product Type List</h2>
+
+<div>
+    <a asp-action="Create" class="btn btn-info text-right mb-3">&nbsp; New Product Type</a>
+</div>
+
+<table class="table table-striped border">
+    <thead>
+        <tr class="table-info">
+            
+            <th>
+                @Html.DisplayNameFor(model => model.ProductType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductType)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
