@@ -1,0 +1,42 @@
+﻿@model IEnumerable<KamalOnLineShop.Models.SpecialTag>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2 class="text-info">Special Tag List</h2>
+
+<div class="col-10 mb-2 text-right">
+    <a asp-action="Create" class="btn btn-info"><i class="fa-solid fa-plus"></i>&nbsp; New Special Tag</a>
+</div>
+<div class="col-10">
+
+<table class="table table-striped border">
+    <thead>
+        <tr class="table-info">
+            
+            <th>
+                @Html.DisplayNameFor(model => model.TagName)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.TagName)
+
+             </td>
+            <td>
+               <partial name="_ButtonsPartial" model="@item.Id"/>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+
+

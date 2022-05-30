@@ -1,0 +1,103 @@
+﻿@using KamalOnLineShop.Models
+@using KamalOnLineShop.Utility
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextaccessor
+
+
+@model KamalOnLineShop.Models.Order
+
+@{
+    ViewData["Title"] = " Order Details";
+}
+@{
+    List<Products> products = HttpContextaccessor.HttpContext.Session.Get<List<Products>>("products");
+    if (products == null)
+    {
+        products = new List<Products>();
+    }
+}
+
+
+<h4 class="text-info">Order Details</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Details" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+            <div class=" p-4 border rounded">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           
+            <div class="form-group">
+                <label asp-for="Name"   class="control-label"></label>
+                <input asp-for="Name"  class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNo" class="control-label"></label>
+                <input asp-for="PhoneNo"  class="form-control" />
+                <span asp-validation-for="PhoneNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address"  class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email"   class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+              <div class="form-group">
+                <label asp-for="OrderDate" class="control-label"></label>
+                <input asp-for="OrderDate"  type="date" class="form-control" />
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
+            </div>
+             
+             
+
+
+
+            <div class="form-group">
+                 <input type="submit" asp-action="CheckOut" asp-controller="Order" asp-area="Customer" value="place Order" class="btn btn-success form-control"/>
+            </div>
+            </div>
+        </form>
+    </div>
+    
+    
+       <div class="col-md-6">
+
+           <table class="table table-bordered ">
+               <thead>
+                   <tr>
+                       <th>Image</th>
+                       <th>Name</th>
+                       <th>Price</th>
+                   </tr>
+               </thead>
+               <tbody>
+                @foreach (var item in products)
+                {
+                  <tr>
+                      <td>
+                          <img src="~/@item.Image " style="width:180px;height:100px"/>
+                      </td>
+                      <td>@item.Name</td>
+                      <td>@item.Price</td>
+                  </tr>  
+                }
+            </tbody>
+           </table>
+           <div class="text-right">
+               <h3 class="table-danger">Total Price :@products.Sum(x=>x.Price)</h3>
+           </div>
+    </div>  
+    
+    
+   
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

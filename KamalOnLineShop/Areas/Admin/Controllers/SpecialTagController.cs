@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 namespace KamalOnLineShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ProductTypesController : Controller
+    public class SpecialTagController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProductTypesController(ApplicationDbContext context)
+        public SpecialTagController(ApplicationDbContext context)
         {
             _context = context;
         }
         public IActionResult Index()
         {
-            return View(_context.ProductTypes.ToList());
+            return View(_context.SpecialTags.ToList());
         }
 
         public ActionResult Create()
@@ -28,13 +28,13 @@ namespace KamalOnLineShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Create(ProductTypes model)
+        public async Task<IActionResult> Create(SpecialTag model)
         {
             if (ModelState.IsValid)
             {
-                _context.ProductTypes.Add(model);
-              await  _context.SaveChangesAsync();
-                TempData["save"] = "Product Type Saved ";
+                _context.SpecialTags.Add(model);
+                await _context.SaveChangesAsync();
+                TempData["save"] = "Special Tag Saved";
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -42,30 +42,28 @@ namespace KamalOnLineShop.Areas.Admin.Controllers
 
         public ActionResult Edit(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            var productType = _context.ProductTypes.Find(id);
-            if(productType == null)
+            var specialTag = _context.SpecialTags.FirstOrDefault(x=>x.Id==id);
+            if (specialTag == null)
             {
                 return NotFound();
             }
-            return View(productType);
+            return View(specialTag);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Edit(ProductTypes model)
+        public async Task<IActionResult> Edit(SpecialTag model)
         {
             if (ModelState.IsValid)
             {
-                _context.ProductTypes.Update(model);
-              await  _context.SaveChangesAsync();
-                TempData["edit"] = "Product Type Updated";
+                _context.SpecialTags.Update(model);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-
             }
             return View(model);
         }
@@ -76,12 +74,12 @@ namespace KamalOnLineShop.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var productType = _context.ProductTypes.Find(id);
-            if (productType == null)
+            var specialTag = _context.SpecialTags.FirstOrDefault(x=>x.Id==id);
+            if (specialTag == null)
             {
                 return NotFound();
             }
-            return View(productType);
+            return View(specialTag);
         }
 
         [HttpPost]
@@ -97,24 +95,23 @@ namespace KamalOnLineShop.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var productType = _context.ProductTypes.Find(id);
-            if (productType == null)
+            var specialTag = _context.SpecialTags.FirstOrDefault(x=>x.Id==id);
+            if (specialTag == null)
             {
                 return NotFound();
             }
-            return View(productType);
+            return View(specialTag);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Delete(ProductTypes model)
+        public async Task<IActionResult> Delete(SpecialTag model)
         {
-            if(model != null)
+            if (model != null)
             {
-                _context.ProductTypes.Remove(model);
-              await  _context.SaveChangesAsync();
-                TempData["del"] = "Product type deleted";
+                _context.SpecialTags.Remove(model);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View();

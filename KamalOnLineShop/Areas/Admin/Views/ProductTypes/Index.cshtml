@@ -6,9 +6,10 @@
 
 <h2 class="text-info">Product Type List</h2>
 
-<div>
-    <a asp-action="Create" class="btn btn-info text-right mb-3">&nbsp; New Product Type</a>
+<div class="col-10 mb-2 text-right">
+    <a asp-action="Create" class="btn btn-info"><i class="fa-solid fa-plus"></i>&nbsp; New Product Type</a>
 </div>
+<div class="col-10">
 
 <table class="table table-striped border">
     <thead>
@@ -18,6 +19,7 @@
                 @Html.DisplayNameFor(model => model.ProductType)
             </th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -26,13 +28,36 @@
             
             <td>
                 @Html.DisplayFor(modelItem => item.ProductType)
-            </td>
+
+             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+               <partial name="_ButtonsPartial" model="@item.Id"/>
             </td>
         </tr>
 }
     </tbody>
 </table>
+</div>
+
+@section scripts{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+   $(function(){
+  var save='@TempData["save"]';
+ 
+  if(save !=null&&save !=''){  
+        alertify.success(save);
+  }
+  var edit='@TempData["edit"]'
+  if(edit!=''){
+      alertify.success(edit);
+  }
+   var del='@TempData["del"]'
+  if(del!=''){
+      alertify.error(del);
+  }
+   })
+    
+    
+    </script>
+}

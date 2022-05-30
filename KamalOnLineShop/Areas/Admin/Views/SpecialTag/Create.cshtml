@@ -1,11 +1,11 @@
-﻿@model KamalOnLineShop.Models.ProductTypes
+﻿@model KamalOnLineShop.Models.SpecialTag
 
 @{
     ViewData["Title"] = "Create";
 }
 
 
-<h4 class="text-info"> Create ProductTypes</h4>
+<h4 class="text-info"> Create SpecialTag</h4>
 <hr />
 <div class="row">
     <div class="col-md-6">
@@ -14,9 +14,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
            
             <div class="form-group">
-                <label asp-for="ProductType" class="control-label"></label>
-                <input asp-for="ProductType" class="form-control" />
-                <span asp-validation-for="ProductType" class="text-danger"></span>
+                <label asp-for="TagName" class="control-label"></label>
+                <input asp-for="TagName" class="form-control" />
+                <span asp-validation-for="TagName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
