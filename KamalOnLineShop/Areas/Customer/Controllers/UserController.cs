@@ -144,6 +144,58 @@ namespace KamalOnLineShop.Areas.Customer.Controllers
             }
             return View(user);
         }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Active(ApplicationUser user)
+        {
+            var userupdated = _context.ApplicationUsers.FirstOrDefault(x => x.Id == user.Id);
+            if (userupdated == null)
+            {
+                return NotFound();
+            }
+            userupdated.LockoutEnd = DateTime.Now.AddDays(-1);
+            int rowEffected = _context.SaveChanges();
+            if (rowEffected > 0)
+            {
+                TempData["save"] = "User has been Active Succesufully";
+                return RedirectToAction(nameof(Index));
+            }
+            return View(userupdated);
+        }
+
+        public IActionResult Delete(string id)
+        {
+            var user = _context.ApplicationUsers.FirstOrDefault(x => x.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(ApplicationUser user)
+        {
+            var userupdated = _context.ApplicationUsers.FirstOrDefault(x => x.Id == user.Id);
+            if (userupdated == null)
+            {
+                return NotFound();
+            }
+            _context.ApplicationUsers.Remove(userupdated);
+            int rowEffected = _context.SaveChanges();
+            if (rowEffected > 0)
+            {
+                TempData["lock"] = "User has been Deleted Succesufully";
+                return RedirectToAction(nameof(Index));
+            }
+            return View(userupdated);
+        }
+
+
     }
-    }
+}
 

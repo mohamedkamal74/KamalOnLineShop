@@ -1,0 +1,68 @@
+﻿
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2 class="text-info">Role List</h2>
+
+<div class="col-10 mb-2 text-right">
+    <a asp-action="Create" class="btn btn-info"><i class="fa-solid fa-plus"></i>&nbsp; New Role</a>
+</div>
+<div class="col-10">
+
+<table class="table table-striped border">
+    <thead>
+        <tr class="table-info">
+            
+            <th>
+                Name
+            </th>
+           
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in ViewBag.roles) {
+        <tr>
+            
+            <td>
+               @item.Name
+             </td>
+             
+              <td>
+               <partial name="_PartialViewbtn" model="@item.Id"/>
+            </td>
+                
+                    
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+
+
+
+
+@section scripts{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+   $(function(){
+  var save='@TempData["save"]';
+ 
+  if(save !=null&&save !=''){  
+        alertify.success(save);
+  }
+  var edit='@TempData["edit"]'
+  if(edit!=''){
+      alertify.success(edit);
+  }
+   var del='@TempData["lock"]'
+  if(del!=''){
+      alertify.error(del);
+  }
+   })
+    
+    </script>
+}
