@@ -1,0 +1,93 @@
+﻿
+@model IEnumerable<KamalOnLineShop.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2 class="text-info">User List</h2>
+
+<div class="col-10 mb-2 text-right">
+    <a asp-action="Create" class="btn btn-info"><i class="fa-solid fa-plus"></i>&nbsp; New User</a>
+</div>
+<div class="col-10">
+
+<table class="table table-striped border">
+    <thead>
+        <tr class="table-info">
+            
+            <th>
+                Name
+            </th>
+            <th>
+                User Name
+            </th>
+            <th>Status</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            
+            <td>
+               @item.FirstName @item.LastName
+             </td>
+             <td>
+               @item.UserName
+             </td>
+                    @if (item.LockoutEnd > DateTime.Now && item.LockoutEnd != null)
+                    {
+                        <td>
+                            Not Active
+                        </td>
+                       
+                            
+
+                <td style="width:150px">
+                    <div class="btn-group">
+                    <a asp-action="Active"  asp-route-id="@item.Id" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a asp-action="Delete"  asp-route-id="@item.Id" class="btn btn-danger"><i class="fa-solid fa-calendar-xmark"></i></a>
+                    </div>
+                </td>
+                                      
+                    }
+                    else
+                    {
+                        <td>Active</td>
+                         <td>
+               <partial name="_PartialViewbtn" model="@item.Id"/>
+            </td>
+                    }
+                    
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+
+
+
+
+@section scripts{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+   $(function(){
+  var save='@TempData["save"]';
+ 
+  if(save !=null&&save !=''){  
+        alertify.success(save);
+  }
+  var edit='@TempData["edit"]'
+  if(edit!=''){
+      alertify.success(edit);
+  }
+   var del='@TempData["lock"]'
+  if(del!=''){
+      alertify.error(del);
+  }
+   })
+    
+    </script>
+}
