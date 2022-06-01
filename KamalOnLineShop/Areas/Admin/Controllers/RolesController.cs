@@ -9,10 +9,13 @@ namespace KamalOnLineShop.Areas.Admin.Controllers
     public class RolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<IdentityRole> _userManager;
 
-        public RolesController(RoleManager<IdentityRole>roleManager)
+        public RolesController(RoleManager<IdentityRole>roleManager,
+            UserManager<IdentityRole>userManager)
         {
             _roleManager = roleManager;
+           _userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -105,6 +108,33 @@ namespace KamalOnLineShop.Areas.Admin.Controllers
             ViewBag.id = role.Id;
             ViewBag.name = role.Name;
             return View(role);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirm(string id)
+        {
+
+            var role = await _roleManager.FindByIdAsync(id);
+            if (role == null)
+            {
+                return NotFound();
+            }
+           
+            var result = await _roleManager.DeleteAsync(role);
+            if (result.Succeeded)
+            {
+                TempData["lock"] = "role Deleted Succesufully";
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> Assign()
+        {
+            ViewBag.userId = _userManager.Users.ToList();
+            ViewBag.roleId = _roleManager.Roles.ToList();
+            return View();
         }
     }
 }

@@ -12,12 +12,12 @@
             <div class=" p-4 border rounded">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 
-              <h3 class="text-danger"> @ViewBag.existName</h3>
+              <h3 class="text-danger">Are you want to delete this role..?</h3>
                
             <div class="form-group">
                             <input type="hidden" name="id" value="@ViewBag.id" />
                 <label  class="control-label">Role Name</label>
-                <input id="name" name="name" value="@ViewBag.name" required class="form-control" />
+                <input id="name" name="name" readonly value="@ViewBag.name" required class="form-control" />
             </div>
             
               
