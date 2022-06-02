@@ -1,5 +1,6 @@
 ﻿using KamalOnLineShop.Data;
 using KamalOnLineShop.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 namespace KamalOnLineShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    //[Authorize]
     public class ProductTypesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -15,10 +17,12 @@ namespace KamalOnLineShop.Areas.Admin.Controllers
         {
             _context = context;
         }
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View(_context.ProductTypes.ToList());
         }
+        [Authorize]
 
         public ActionResult Create()
         {

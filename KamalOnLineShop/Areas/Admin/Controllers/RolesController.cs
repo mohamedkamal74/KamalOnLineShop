@@ -165,5 +165,21 @@ namespace KamalOnLineShop.Areas.Admin.Controllers
             }
             return View();
         }
+
+        public IActionResult AssignUserRole()
+        {
+            var result = from ur in _context.UserRoles
+                         join rs in _context.Roles on ur.RoleId equals rs.Id
+                         join us in _context.ApplicationUsers on ur.UserId equals us.Id
+                         select new UserRoleMapping()
+                         {
+                             UserId = ur.UserId,
+                             RoleId = ur.RoleId,
+                             UserName = us.UserName,
+                             RoleName = rs.Name
+                         };
+            ViewBag.userrole = result;
+            return View();
+        }
     }
 }
