@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace KamalOnLineShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize]
+    [Authorize]
     public class ProductTypesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,7 +22,7 @@ namespace KamalOnLineShop.Areas.Admin.Controllers
         {
             return View(_context.ProductTypes.ToList());
         }
-        [Authorize]
+       
 
         public ActionResult Create()
         {

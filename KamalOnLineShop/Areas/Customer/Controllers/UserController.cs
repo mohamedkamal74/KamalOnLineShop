@@ -40,6 +40,7 @@ namespace KamalOnLineShop.Areas.Customer.Controllers
                 var result = await _userManager.CreateAsync(user, user.PasswordHash);
                 if (result.Succeeded)
                 {
+                    var isSaveRole = await _userManager.AddToRoleAsync(user, "User");
                     TempData["save"] = "User Created Succesufully";
                     return RedirectToAction(nameof(Index));
                 }

@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using KamalOnLineShop.Data;
+using KamalOnLineShop.Areas.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace KamalOnLineShop.Areas.Identity.Pages.Account
 {
@@ -18,14 +21,16 @@ namespace KamalOnLineShop.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly ApplicationDbContext _context;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
         public LoginModel(SignInManager<IdentityUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,ApplicationDbContext context)
         {
             _userManager = userManager;
+           _context = context;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -82,6 +87,21 @@ namespace KamalOnLineShop.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                 var userInfo=_context.ApplicationUsers.FirstOrDefault(x => x.UserName.ToLower() == Input.Email.ToLower());
+                    var roleinfo = (from ur in _context.UserRoles
+                                    join r in _context.Roles on ur.RoleId equals r.Id
+                                    where ur.UserId == userInfo.Id
+                                    select new SessionUserVM()
+                                    {
+                                        UserName = Input.Email,
+                                        RoleName = r.Name,
+
+                                    }).FirstOrDefault();
+                    if(roleinfo != null)
+                    {
+                        HttpContext.Session.SetString("roleinfo", roleinfo.RoleName);
+                    }
+
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
