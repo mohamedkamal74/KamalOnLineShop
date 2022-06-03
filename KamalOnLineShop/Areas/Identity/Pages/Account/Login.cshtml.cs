@@ -99,7 +99,7 @@ namespace KamalOnLineShop.Areas.Identity.Pages.Account
                                     }).FirstOrDefault();
                     if(roleinfo != null)
                     {
-                        HttpContext.Session.SetString("roleinfo", roleinfo.RoleName);
+                        HttpContext.Session.SetString("roleName", roleinfo.RoleName);
                     }
 
                     _logger.LogInformation("User logged in.");
